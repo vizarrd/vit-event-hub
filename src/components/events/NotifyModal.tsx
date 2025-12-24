@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { z } from 'zod';
+import { format } from 'date-fns';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { EmailService } from '@/lib/emailService';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -22,9 +24,15 @@ interface NotifyModalProps {
   onOpenChange: (open: boolean) => void;
   eventId: string;
   eventName: string;
+  eventDetails?: {
+    start_time: string;
+    end_time: string;
+    registration_end: string;
+    venues?: { venue_name: string };
+  };
 }
 
-export function NotifyModal({ open, onOpenChange, eventId, eventName }: NotifyModalProps) {
+export function NotifyModal({ open, onOpenChange, eventId, eventName, eventDetails }: NotifyModalProps) {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -64,6 +72,21 @@ export function NotifyModal({ open, onOpenChange, eventId, eventName }: NotifyMo
           title: 'Subscribed!',
           description: 'You will receive a reminder 2 hours before registration ends.',
         });
+
+        // Send welcome email if event details are provided
+        if (eventDetails) {
+          try {
+            await EmailService.sendWelcomeEmail({
+              email: email.trim(),
+              eventId,
+              eventName,
+              eventDetails
+            });
+          } catch (emailError) {
+            // Don't fail the subscription if email fails
+            console.warn('Welcome email failed:', emailError);
+          }
+        }
         
         setTimeout(() => {
           onOpenChange(false);

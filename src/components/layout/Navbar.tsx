@@ -86,16 +86,16 @@ export function Navbar() {
                       <User className="h-4 w-4" />
                     </div>
                     <span className="hidden sm:inline text-sm font-medium">
-                      {profile?.full_name || 'User'}
+                      {profile?.full_name || user?.user_metadata?.full_name || 'User'}
                     </span>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
                   <div className="px-3 py-2">
-                    <p className="text-sm font-medium">{profile?.full_name}</p>
-                    <p className="text-xs text-muted-foreground">{profile?.email}</p>
+                    <p className="text-sm font-medium">{profile?.full_name || user?.user_metadata?.full_name || 'User'}</p>
+                    <p className="text-xs text-muted-foreground">{profile?.email || user?.email}</p>
                     <p className="text-xs text-accent font-medium capitalize mt-1">
-                      {profile?.role?.replace('_', ' ')}
+                      {profile?.role?.replace('_', ' ') || user?.user_metadata?.role?.replace('_', ' ') || 'User'}
                     </p>
                   </div>
                   <DropdownMenuSeparator />

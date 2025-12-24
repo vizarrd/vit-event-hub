@@ -9,7 +9,7 @@ interface AuthContextType {
   profile: Profile | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
-  signUp: (email: string, password: string, fullName: string, role?: AppRole, clubId?: string) => Promise<{ error: Error | null }>;
+  signUp: (email: string, password: string, fullName: string, role?: AppRole, clubId?: string) => Promise<{ error: Error | null; data?: any }>;
   signOut: () => Promise<void>;
   isSuperAdmin: boolean;
   isClubPoc: boolean;
@@ -52,14 +52,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const fetchProfile = async (userId: string) => {
+    console.log('Fetching profile for user:', userId);
     const { data, error } = await supabase
       .from('profiles')
       .select('*')
       .eq('id', userId)
       .maybeSingle();
 
+    console.log('Profile fetch result:', { data, error });
     if (!error && data) {
       setProfile(data as Profile);
+    } else if (error) {
+      console.error('Profile fetch error:', error);
     }
   };
 
@@ -78,13 +82,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     role: AppRole = 'club_poc',
     clubId?: string
   ) => {
-    const redirectUrl = `${window.location.origin}/`;
-    
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        emailRedirectTo: redirectUrl,
         data: {
           full_name: fullName,
           role: role,
@@ -92,7 +93,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         },
       },
     });
-    return { error };
+    
+    return { error, data };
   };
 
   const signOut = async () => {

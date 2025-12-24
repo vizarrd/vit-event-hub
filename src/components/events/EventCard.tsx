@@ -82,20 +82,38 @@ export function EventCard({ event, onDelete }: EventCardProps) {
 
             <div className="flex items-center gap-2 text-muted-foreground">
               <Calendar className="h-4 w-4 text-accent" />
-              <span>{format(new Date(event.start_time), 'MMM dd, yyyy')}</span>
+              <span>
+                {event.start_time ? format(new Date(event.start_time), 'EEE, MMM dd, yyyy') : 'Date TBA'}
+              </span>
             </div>
 
             <div className="flex items-center gap-2 text-muted-foreground">
               <Clock className="h-4 w-4 text-accent" />
               <span>
-                {format(new Date(event.start_time), 'h:mm a')} - {format(new Date(event.end_time), 'h:mm a')}
+                {event.start_time && event.end_time ? (
+                  `${format(new Date(event.start_time), 'h:mm a')} - ${format(new Date(event.end_time), 'h:mm a')}`
+                ) : 'Time TBA'}
               </span>
             </div>
 
             <div className="flex items-center gap-2 text-muted-foreground">
               <Users className="h-4 w-4 text-accent" />
               <span className="text-xs">
-                Registration: {format(new Date(event.registration_start), 'MMM dd')} - {format(new Date(event.registration_end), 'MMM dd, h:mm a')}
+                Registration: {event.registration_start && event.registration_end ? (
+                  `${format(new Date(event.registration_start), 'MMM dd, h:mm a')} - ${format(new Date(event.registration_end), 'MMM dd, h:mm a')}`
+                ) : 'TBA'}
+              </span>
+            </div>
+
+            {/* Registration Status - Visible to all users */}
+            <div className="flex items-center gap-2">
+              <div className={`w-2 h-2 rounded-full ${
+                isPast ? 'bg-gray-400' : isRegistrationOpen ? 'bg-green-500' : 'bg-red-500'
+              }`} />
+              <span className={`text-xs font-medium ${
+                isPast ? 'text-gray-500' : isRegistrationOpen ? 'text-green-600' : 'text-red-600'
+              }`}>
+                {isPast ? 'Event Completed' : isRegistrationOpen ? 'Registration Open' : 'Registration Closed'}
               </span>
             </div>
           </div>
@@ -150,6 +168,12 @@ export function EventCard({ event, onDelete }: EventCardProps) {
         onOpenChange={setNotifyOpen}
         eventId={event.id}
         eventName={event.event_name}
+        eventDetails={{
+          start_time: event.start_time,
+          end_time: event.end_time,
+          registration_end: event.registration_end,
+          venues: event.venues
+        }}
       />
     </>
   );

@@ -98,13 +98,13 @@ export default function Index() {
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <a href="#events">
-                <Button variant="hero" size="lg" className="bg-primary-foreground text-primary hover:bg-primary-foreground/90">
+                <Button variant="default" size="lg" className="bg-white text-primary shadow-lg hover:bg-white/90 hover:shadow-xl transition-all duration-300 font-semibold px-8">
                   Browse Events
                 </Button>
               </a>
               {!user && (
                 <Link to="/login">
-                  <Button variant="outline" size="lg" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
+                  <Button variant="outline" size="lg" className="bg-white text-primary shadow-lg hover:bg-white/90 hover:shadow-xl transition-all duration-300 font-semibold px-8 border-white">
                     Sign In
                   </Button>
                 </Link>
@@ -181,7 +181,7 @@ export default function Index() {
       {/* Footer */}
       <footer className="border-t border-border/40 py-8 bg-muted/30">
         <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>© 2024 VIT Chennai Event Scheduler. Developed by OSPC Club.</p>
+          <p>© 2025 VIT Chennai Event Scheduler. Developed by OSPC Club.</p>
         </div>
       </footer>
     </div>

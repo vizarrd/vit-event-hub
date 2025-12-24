@@ -1,0 +1,30 @@
+<svg width="32" height="32" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="50" r="48" fill="#1e40af" stroke="#312e81" stroke-width="4"/>
+  
+  <!-- Phoenix/Eagle silhouette -->
+  <g transform="translate(50, 50) scale(0.8)" fill="#ffffff">
+    <!-- Body -->
+    <ellipse cx="0" cy="5" rx="3" ry="12"/>
+    
+    <!-- Head -->
+    <circle cx="0" cy="-8" r="4"/>
+    
+    <!-- Beak -->
+    <polygon points="0,-12 4,-10 0,-8"/>
+    
+    <!-- Left Wing -->
+    <path d="M-3,0 Q-15,-8 -20,-2 Q-15,4 -8,8 Q-5,2 -3,0"/>
+    
+    <!-- Right Wing -->
+    <path d="M3,0 Q15,-8 20,-2 Q15,4 8,8 Q5,2 3,0"/>
+    
+    <!-- Tail feathers -->
+    <path d="M-2,15 Q-8,25 -4,28 Q0,22 2,28 Q8,25 2,15"/>
+  </g>
+  
+  <!-- Text around circle -->
+  <path id="circle-text" d="M 16,50 A 34,34 0 1,1 84,50 A 34,34 0 1,1 16,50" fill="none"/>
+  <text font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#ffffff">
+    <textPath href="#circle-text" startOffset="0%">OSPC • VIT CHENNAI</textPath>
+  </text>
+</svg>
